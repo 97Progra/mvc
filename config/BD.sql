@@ -14,3 +14,9 @@ INSERT INTO vehiculos (tipo, placa) VALUES
 ('Carro', 'idq98k'),
 ('Moto', 'idq98m'),
 ('Carro', 'aiq98e');
+
+CREATE TABLE usuarios (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    usuario VARCHAR(100),
+    contrasena VARCHAR(100)
+);
