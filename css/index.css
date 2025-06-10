@@ -1,0 +1,51 @@
+h1{
+    color: blue;
+    font-family: Arial, sans-serif;
+    font-size: 2em;
+    text-align: center;
+}
+table {
+    width: 100%;
+    border-collapse: collapse;
+    
+}
+th, td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: center;
+}
+.btn-registrar{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+button {
+    margin-top: 2rem;
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+.formulario-registrar{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.formulario {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: 2rem;
+    gap: 1rem;
+    width: 30%;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+}
+.ocultar {
+    display: none;
+}
+.mensaje.exito { color: green; }
+.mensaje.error { color: red; }
