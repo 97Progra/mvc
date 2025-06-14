@@ -17,6 +17,9 @@ INSERT INTO vehiculos (tipo, placa) VALUES
 
 CREATE TABLE usuarios (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    usuario VARCHAR(100),
-    contrasena VARCHAR(100)
+    nombres VARCHAR(100),
+    apellidos VARCHAR(100),
+    contrasena VARCHAR(255),
+    telefono INT(10),
+    correo VARCHAR(50) UNIQUE
 );

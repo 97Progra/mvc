@@ -1,5 +1,6 @@
 <?php
 require_once __DIR__ . '/../Modelo/modelo.php';
+require_once "tokens.php";
 // Mostrar el formulario para registrar un vehículo
 
 // function redirigir($mensaje)
@@ -9,26 +10,36 @@ require_once __DIR__ . '/../Modelo/modelo.php';
 //     exit;
 // }
 // Registrar Y Actualizar
-$mensaje = '';
+session_start(); // ¡IMPORTANTE!
+
+
+
+// $mensaje = '';
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $accion = $_POST['accion'] ?? '';
     $tipoVehiculo = trim($_POST['tipoVehiculo'] ?? '');
     $placa = strtoupper(trim($_POST['placa'] ?? ''));
-    // Redex  placa
-    if (!preg_match('/^[A-Z]{3}[0-9]{2}[A-Z0-9]{1}$/', $placa)) {
-        header("location: controlador.php?accion=listar&mensaje=Placa_inválida");
-        exit;
+    //Validar token
+    if (!isset($_POST['csrf_token'])) {
+        die("❌ Error: Token CSRF ausente.");
+    } elseif (!validarTokenCSRF($_POST['csrf_token'])) {
+        die("❌ Error: Token CSRF inválido.");
+    }
+    if ($accion === 'registrar') {
         //^[A-Z]{3} → tres letras al inicio
         //[0-9]{2} → dos dígitos
         //[A-Z0-9]{1}$ → una letra o número al final
-}
-    // Validar campos
-    if(empty($tipoVehiculo) || empty($placa)){
-        header("location: controlador.php?accion=listar&mensaje=campos_vacios");
-        exit;
-    }
-
-    if ($accion === 'registrar') {
+        // Redex  placa
+        if (!preg_match('/^[A-Z]{3}[0-9]{2}[A-Z0-9]{1}$/', $placa)) {
+            header("location: controlador.php?accion=listar&mensaje=Placa_inválida");
+            exit;
+        }
+        // Validar campos
+        if (empty($tipoVehiculo) || empty($placa)) {
+            header("location: controlador.php?accion=listar&mensaje=campos_vacios");
+            exit;
+        }
         $resultado = insertarVehiculo($tipoVehiculo, $placa);
         if ($resultado) {
             header("location: controlador.php?accion=listar&mensaje=registro_exitoso");
@@ -47,18 +58,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             header("location: controlador.php?accion=listar&mensaje=error_actualizar");
         }
     }
-}
-// Eliminar
-if (isset($_GET['accion']) && $_GET['accion'] === 'eliminar' && (isset($_GET['id']))) {
-    $idVehiculo = intval($_GET['id']);
-    $resultado = eliminarVehiculo($idVehiculo);
-    if ($resultado) {
-        header("Location: controlador.php?accion=listar&mensaje=eliminacion_exitosa");
-    } else {
-       header("location: controlador.php?accion=listar&mensaje=error_eliminar");
+
+    // Eliminar
+    if ($accion === 'eliminar') {
+        $idVehiculo = intval($_POST['id']);
+        $resultado = eliminarVehiculo($idVehiculo);
+        if ($resultado) {
+            header("Location: controlador.php?accion=listar&mensaje=eliminacion_exitosa");
+        } else {
+            header("location: controlador.php?accion=listar&mensaje=error_eliminar");
+        }
+        exit;
     }
-    exit;
 }
+
 // Mostrar la lista de vehiculos
 if (!isset($_GET['accion']) || $_GET['accion'] === 'listar') {
     $vehiculos = listarVehiculos();

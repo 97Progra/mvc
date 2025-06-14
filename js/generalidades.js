@@ -6,7 +6,7 @@
 
     // Cambia el texto del botón
     if (formulario.classList.contains("ocultar")) {
-      boton.textContent = "Registrar";
+      boton.textContent = "Registrar Vehiculo";
     } else {
       boton.textContent = "Ocultar formulario";
     }
