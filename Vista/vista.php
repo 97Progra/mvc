@@ -36,7 +36,7 @@ $mensajes = [
 
 
 if (!isset($_SESSION['usuario_id'])) {
-    header("Location: ../Vista/vistaLogin.php");
+    header("Location: index.php?ruta=login");
     exit;
 }
 ?>
@@ -45,11 +45,9 @@ if (!isset($_SESSION['usuario_id'])) {
     <h1>Gestion de vehiculos del Parquedero</h1>
 
     <h2>Bienvenido, <?php echo $_SESSION['nombre']; ?></h2>
-    <a href="../Controlador/logout.php">Cerrar sesión</a>
+    <a href="index.php?ruta=logout">Cerrar sesión</a>
 
     <table border="1">
-        <!-- Campo oculto con el token CSRF -->
-        <!-- <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars(generarTokenCSRF()); ?>">  -->
         <tr>
             <th>id</th>
             <th>Tipo Vehiculo</th>
@@ -62,13 +60,13 @@ if (!isset($_SESSION['usuario_id'])) {
                 <td><?= htmlspecialchars($vehiculo['tipo']) ?></td>
                 <td><?= htmlspecialchars($vehiculo['placa']) ?></td>
                 <td>
-                    <form action="../Controlador/controlador.php" method="POST" style="display:inline;">
+                    <form class="eliminarVehiculo">
                         <input type="hidden" name="accion" value="eliminar">
                         <input type="hidden" name="id" value="<?= $vehiculo['id'] ?>">
                         <input type="hidden" name="csrf_token" value="<?= htmlspecialchars(generarTokenCSRF()); ?>">
-                        <button type="submit" onclick="return confirm('¿Estás seguro de eliminar este vehículo?')" style="background:none;border:none;color:blue;cursor:pointer;">Eliminar</button>
+                        <button type="submit" style="background:none;border:none;color:blue;cursor:pointer;">Eliminar</button>
                     </form>
-                    <a href="../Controlador/controlador.php?idVehiculo=<?= $vehiculo['id'] ?>&accion=actualizar">Actualizar</a>
+                    <a href="index.php?ruta=listarvehiculos&idVehiculo=<?= $vehiculo['id'] ?>&accion=actualizar">Actualizar</a>
                 </td>
             </tr>
         <?php endforeach; ?>
@@ -76,7 +74,7 @@ if (!isset($_SESSION['usuario_id'])) {
 
 
     <?php if (isset($mostraVehiculo)) : ?>
-        <form id="formularioActualizar" action="../Controlador/controlador.php" method="POST" class="formulario">
+        <form id="formularioActualizar"  class="formulario">
             <h2>Actualizar Vehiculo</h2>
             <input type="text" name="tipoVehiculo" value="<?php echo htmlspecialchars($mostraVehiculo['tipo'] ?? ''); ?>">
             <br>
@@ -91,14 +89,14 @@ if (!isset($_SESSION['usuario_id'])) {
 
     <?php endif;  ?>
     <div class="formulario-registrar">
-        <form id="formularioRegistro" action="../Controlador/controlador.php" method="POST" class="formulario ocultar ">
+        <form id="formularioRegistroVehiculo" class="formulario ocultar ">
             <h2>Registrar Vehiculo</h2>
             <input type="text" name="tipoVehiculo" placeholder="Ingrese el tipo de vehiculo">
             <br>
             <input type="text" name="placa" placeholder="Ingrese la placa del vehiculo">
             <input type="hidden" name="accion" value="registrar">
             <br>
-            <input type="submit" value="Registrar">
+            <input type="submit" value="Registrar Vehiculo">
             <!-- Campo oculto con el token CSRF -->
             <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars(generarTokenCSRF()); ?>">
         </form>

@@ -1,6 +1,6 @@
 <?php
 require_once __DIR__ . '/../Modelo/modeloLogin.php';
-session_start(); // Inicia la sesión
+
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $correo = $_POST['correo'];
@@ -13,14 +13,19 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $_SESSION['usuario_id'] = $usuario['id'];
         $_SESSION['nombre'] = $usuario['nombres'];
         $_SESSION['correo'] = $correo;
-
-        header("Location: ../Controlador/controlador.php");
-        exit;
+        //Devuelvo Json
+        echo json_encode(["estado" => "ok"]);
     } else {
-        echo "Correo o contraseña incorrectos";
+        //Devuelvo Json
+        echo json_encode(["estado" => "error", "mensaje" => "Correo o contraseña incorrectos"]);
     }
+    exit;
 }
 
+// Ejecuta lógica...
+require_once 'Vista/header.php';
+require_once 'Vista/vistaLogin.php';
+require_once 'Vista/footer.php';
 
 
 ?>

@@ -9,13 +9,13 @@
                 timer: 2500
             });
             // Limpia la URL sin recargar
-            if (window.history.replaceState) {
-                window.history.replaceState(null, null, window.location.pathname);
-            }
+            // if (window.history.replaceState) {
+            //     window.history.replaceState(null, null, window.location.pathname);
+            // }
         <?php endif; ?>
     });
 </script>
-
-    <script src="../js/generalidades.js"></script>
+<script defer src="js/ajax.js"></script>
+    <script src="js/generalidades.js"></script>
 </body>
 </html>

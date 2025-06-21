@@ -1,19 +1,10 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Inicio de Sesion</title>
-</head>
-
-<body>
+<?php $titulo = "Login"; require_once "header.php"; ?>
     <h2>Iniciar Sesion</h2>
-    <form action="../Controlador/controladorLogin.php" method="POST">
+    <form id="formularioLogin">
         <input type="text" placeholder="Correo" name="correo">
         <input type="password" placeholder="contraseña" name="contrasena">
         <input type="submit" value="Ingresar">
+        <a href="index.php?ruta=registrarse">Registrase</a>
     </form>
-
-</body>
-</html>
+    <div id="respuesta"></div>
+<?php require_once "footer.php" ?>
